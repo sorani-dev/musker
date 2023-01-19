@@ -14,6 +14,5 @@ def profile_list(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated:
         profiles = Profile.objects.exclude(user=request.user)
         return render(request, 'musker/profile_list.html', {'profiles': profiles})
-    else:
-        messages.warning(request, ('You must be logged in to view this page'))
-        return redirect('home')
+    messages.warning(request, ('You must be logged in to view this page'))
+    return redirect('home')
