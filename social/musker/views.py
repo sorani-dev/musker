@@ -16,3 +16,13 @@ def profile_list(request: HttpRequest) -> HttpResponse:
         return render(request, 'musker/profile_list.html', {'profiles': profiles})
     messages.warning(request, ('You must be logged in to view this page'))
     return redirect('home')
+
+def profile(request: HttpRequest, pk:int)->HttpResponse:
+    """
+    View a Single profile
+    """
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user_id=pk)
+        return render(request, 'musker/profile.html', {'profile': profile})
+    messages.warning(request, ('You must be logged in to view this page'))
+    return redirect('home')
