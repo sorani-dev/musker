@@ -1,61 +1,37 @@
 {% extends 'base.html' %}
 
-{% block content %} 
-    {% if profile %}
+{% block content %}
+{% if profile %}
 <div class="container text-center">
-    
+
     <div class="row my-3">
         <div class="col-md-8">
             <h1>{{ profile.user.username }}'s Profile</h1>
         </div>
-    <div class="col-md-4">
-        <div class="card">
-            {% include 'partials/_profile_follow.html' with card=profile.follows.all title="Follows" %}
-        {% comment %} </div> {% endcomment %}
-        {% comment %} <div class="card">
-            <div class="card-header"><h2 class"h2">Follows</h1> 
+        <div class="col-md-4">
+            <div class="card">
+                {% include 'partials/_profile_follow.html' with card=profile.follows.all title="Follows" %}
             </div>
-            <div class="card-body">
-                <div class="card-text">
-    
-                    {% for following in profile.follows.all %}
-                        {% if following.user != profile.user %}
-                            <a href="{% url 'profile' following.user.id %}">@{{ following }}</a>
-                            {% if not loop.last %}
-                                <br>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-          
-                </div>
-            </div> {% endcomment %}
-            {% comment %} <div class="card-footer">
-        
-            </div> {% endcomment %}
-        </div><div class="card my-3">
-            {% include 'partials/_profile_follow.html' with card=profile.followed_by.all title="Followed By" %}
-{% comment %} 
-            <div class="card-header"><h2>Followed By</h1> 
-               
+            <div class="card my-3">
+                {% include 'partials/_profile_follow.html' with card=profile.followed_by.all title="Followed By" %}
             </div>
-            <div class="card-body">
-                <div class="card-text">
-                        {% for followed in profile.followed_by.all %}
-                            {% if followed.user != profile.user %}                
-                                <a href="{% url 'profile' followed.user.id %}">@{{ followed }}</a>
-                                {% if not loop.last %}
-                                    <br>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                </div>
-            </div> {% endcomment %}
-            {% comment %} <div class="card-footer">
-        
-            </div> {% endcomment %}
+            {% if profile.user != request.user %}
+            <form action="" method="post" class="mb-3">
+                {% csrf_token %}
+                {% if profile in user.profile.follows.all %}
+                    <button type="submit" class="btn btn-outline-danger" name="follow" value="unfollow">Unfollow
+                    @{{ profile.user.username }}</button>
+                {% else %}
+                    <button type="submit" class="btn btn-outline-success" name="follow" value="follow">Follow
+                    @{{ profile.user.username }}</button>
+                {% endif %}
+            </form>
+            {% endif %}
         </div>
-</div>
-</div>
+    </div>
+
+
+
     {% endif %}
-    
-{% endblock content %}
+
+    {% endblock content %}
