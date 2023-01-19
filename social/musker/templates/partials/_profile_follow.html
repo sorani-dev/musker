@@ -1,0 +1,14 @@
+<div class="card-header"><h2>{{ title }}</h1> 
+    </div>
+    <div class="card-body">
+        <div class="card-text">
+                {% for followed in card %}
+                    {% if followed.user != profile.user %}                
+                        <a href="{% url 'profile' followed.user.id %}">@{{ followed }}</a>
+                        {% if not loop.last %}
+                            <br>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+        </div>
+    </div>

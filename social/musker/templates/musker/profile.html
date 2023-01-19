@@ -10,6 +10,9 @@
         </div>
     <div class="col-md-4">
         <div class="card">
+            {% include 'partials/_profile_follow.html' with card=profile.follows.all title="Follows" %}
+        {% comment %} </div> {% endcomment %}
+        {% comment %} <div class="card">
             <div class="card-header"><h2 class"h2">Follows</h1> 
             </div>
             <div class="card-body">
@@ -25,11 +28,13 @@
                     {% endfor %}
           
                 </div>
-            </div>
+            </div> {% endcomment %}
             {% comment %} <div class="card-footer">
         
             </div> {% endcomment %}
         </div><div class="card my-3">
+            {% include 'partials/_profile_follow.html' with card=profile.followed_by.all title="Followed By" %}
+{% comment %} 
             <div class="card-header"><h2>Followed By</h1> 
                
             </div>
@@ -44,7 +49,7 @@
                             {% endif %}
                         {% endfor %}
                 </div>
-            </div>
+            </div> {% endcomment %}
             {% comment %} <div class="card-footer">
         
             </div> {% endcomment %}
