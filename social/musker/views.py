@@ -2,12 +2,15 @@ from django.contrib import messages
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 
-from .models import Profile
+from .models import Meep, Profile
 
 
 # Create your views here.
 def home(request: HttpRequest) -> HttpResponse:
-    return render(request, 'musker/home.html', {})
+    meeps = None
+    if request.user.is_authenticated:
+        meeps = Meep.objects.all().order_by('-created_at')
+    return render(request, 'musker/home.html', {'meeps':meeps})
 
 
 def profile_list(request: HttpRequest) -> HttpResponse:
@@ -24,6 +27,8 @@ def profile(request: HttpRequest, pk:int)->HttpResponse:
     if request.user.is_authenticated:
         # Get user profile
         profile = Profile.objects.get(user_id=pk)
+        # Get the user"s meeps
+        meeps = Meep.objects.filter(user_id=pk).order_by('-created_at')
         # Perform form logic on follow/unfollow other user
         if request.method == 'POST':
             # Get the current logged in user's profile
@@ -39,6 +44,6 @@ def profile(request: HttpRequest, pk:int)->HttpResponse:
             current_user_profile.save()
         
         # Render the profile view
-        return render(request, 'musker/profile.html', {'profile': profile})
+        return render(request, 'musker/profile.html', {'profile': profile, 'meeps': meeps})
     messages.warning(request, ('You must be logged in to view this page'))
     return redirect('home')

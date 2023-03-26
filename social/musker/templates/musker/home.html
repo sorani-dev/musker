@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Meeps!</h1>
+<h1 class="mb-3">Meeps!</h1>
+{% for meep in meeps %}
+    <div class="alert alert-dark" role="alert">
+        {{ meep }}
+    </div>
+{% endfor %}
 {% endblock %}

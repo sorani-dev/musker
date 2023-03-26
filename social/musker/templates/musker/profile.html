@@ -6,7 +6,14 @@
 
     <div class="row my-3">
         <div class="col-md-8">
-            <h1>{{ profile.user.username }}'s Profile</h1>
+            <h1 class="mb-5">{{ profile.user.username }}'s Profile</h1>
+            {% if meeps %}
+            {% for meep in meeps %}
+            <div class="alert alert-dark mb-5" role="alert">
+                {{ meep }}
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
         <div class="col-md-4">
             <div class="card">
@@ -19,10 +26,10 @@
             <form action="" method="post" class="mb-3">
                 {% csrf_token %}
                 {% if profile in user.profile.follows.all %}
-                    <button type="submit" class="btn btn-outline-danger" name="follow" value="unfollow">Unfollow
+                <button type="submit" class="btn btn-outline-danger" name="follow" value="unfollow">Unfollow
                     @{{ profile.user.username }}</button>
                 {% else %}
-                    <button type="submit" class="btn btn-outline-success" name="follow" value="follow">Follow
+                <button type="submit" class="btn btn-outline-success" name="follow" value="follow">Follow
                     @{{ profile.user.username }}</button>
                 {% endif %}
             </form>
