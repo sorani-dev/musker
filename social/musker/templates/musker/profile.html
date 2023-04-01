@@ -28,12 +28,12 @@
                             {% endif %}
                         </div>
                         <div class="col-11">
-                            {{ meep.body }}
-                            <div class="text-muted">
+                            <span class="mb-3">{{ meep.body }}</span><br>
+                            <small class="text-muted">
                                 ({{ meep.created_at }})
                                 By 
                                 @{{ meep.user.username }}
-                            </div>
+                            </small>
                         </div>
                     </div>
                 </div>

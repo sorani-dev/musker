@@ -18,3 +18,4 @@ Youtube playlist (<https://youtube.com/playlist?list=PLCC34OHNcOtoQCR6K4RgBWNi3-
 12. Profile Pictures - Django Wednesdays Twitter #12
 13. Upload Profile Pic Form - Django Wednesdays Twitter #13
 14. Add Profile Pictures To Tweets - Django Wednesdays Twitter #14
+15. Profile Pics on Homepage - Django Wednesdays Twitter #15
