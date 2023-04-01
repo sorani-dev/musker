@@ -1,0 +1,21 @@
+{% include 'base.html' %}
+
+{% block content %}
+<h1>Register</h1>
+{% if user.is_authenticated %}
+<h1>You're already logged in!</h1>
+{% else %}
+<div class="col-md-6 offset-md-3">
+<h1 class="mb-5">Login</h1>
+
+<form method="post" action="{% url 'register' %}" class="my-3">
+    {% csrf_token %}
+        {{ form.as_p }}
+        <div class="mt-5">
+            <button type="submit" class="btn btn-secondary">Register</button>
+        </div>
+</form>
+</div>
+
+{% endif %}
+{% endblock content %}
