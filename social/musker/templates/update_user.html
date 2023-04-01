@@ -4,9 +4,11 @@
 <div class="col-md-6 offset-md-3">
     <h1 class="mb-5">Update User</h1>
 
-    <form method="post" action="{% url 'update_user' %}" class="my-3">
+    <form method="post" action="{% url 'update_user' %}" class="my-3" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ user_form.as_p }}
+        <br>
+        {{ profile_form.as_p }}
         <div class="mt-5">
             <button type="submit" class="btn btn-secondary">Update Profile</button>
         </div>

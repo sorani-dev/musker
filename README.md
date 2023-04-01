@@ -16,3 +16,4 @@ Youtube playlist (<https://youtube.com/playlist?list=PLCC34OHNcOtoQCR6K4RgBWNi3-
 10. Register Users - Django Wednesdays Twitter #10
 11. Update User Profiles - Django Wednesdays Twitter #11
 12. Profile Pictures - Django Wednesdays Twitter #12
+13. Upload Profile Pic Form - Django Wednesdays Twitter #13

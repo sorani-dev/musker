@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .forms import SignUpForm
+from .forms import ProfilePicForm, SignUpForm
 from .models import Meep, Profile
 
 
@@ -118,17 +118,26 @@ def register_user(request: HttpRequest) -> HttpResponse:
 
 def update_user(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated:
-        current_user = User.objects.get(pk=request.user.id)
+        user_id: int = request.user.id
+        current_user = User.objects.get(pk=user_id)
+        profile_user = Profile.objects.get(user_id=user_id)
+
+        # Get forms
         # Insert current user info into the signup form
-        form = SignUpForm(request.POST or None, instance=current_user)
-        if form.is_valid():
-            form.save()
+        user_form = SignUpForm(request.POST or None,
+                               request.FILES or None, instance=current_user)
+        profile_form = ProfilePicForm(
+            request.POST or None, request.FILES or None, instance=profile_user)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
             login(request, user=current_user)
             messages.success(
                 request, ('Your Profile has been updated!'))
-            return redirect('home')           
-        
-        return render(request, 'update_user.html', {'form': form})
+            return redirect('home')
+
+        return render(request, 'update_user.html', {'user_form': user_form, 'profile_form': profile_form})
     else:
         messages.warning(
             request, ('You must be logged in to view that page...'))
