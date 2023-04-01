@@ -1,7 +1,8 @@
-{% include 'base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h1>Register</h1>
+<div class="col-md-6 offset-md-3">
+<h1 class="mb-5">Register</h1>
 {% if user.is_authenticated %}
 <h1>You're already logged in!</h1>
 {% else %}
