@@ -14,7 +14,7 @@
             <div class="alert alert-dark mb-5" role="alert">
                 <div class="container">
                     <div class="row">
-                        <div class="col-2">
+                        <div class="col-1">
                             {% if profile.profile_image %}
                             <div class="mb-3 d-flex align-items-center justify-content-center">
                                 <img src="{{ profile.profile_image.url }}" alt="{{ profile.user.username }}" class="rounded-circle"
@@ -27,7 +27,7 @@
                             </div>
                             {% endif %}
                         </div>
-                        <div class="col-10">
+                        <div class="col-11">
                             {{ meep.body }}
                             <div class="text-muted">
                                 ({{ meep.created_at }})
