@@ -16,6 +16,11 @@
             {% endif %}
         </div>
         <div class="col-md-4">
+            {# Profile image #}
+            {% if profile.profile_image %}
+            <img src="{{ profile.profile_image.url }}" alt="{{ profile.user.username }}"/>
+            {% endif %}
+
             <div class="card">
                 {% include 'partials/_profile_follow.html' with card=profile.follows.all title="Follows" %}
             </div>

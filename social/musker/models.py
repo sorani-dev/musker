@@ -35,6 +35,8 @@ class Profile(models.Model):
         blank=True)
     
     updated_at = models.DateTimeField(User, auto_now=True)
+    
+    profile_image = models.ImageField(null=True, blank=True, upload_to='images/')
 
     def __str__(self):
         return self.__repr__();
