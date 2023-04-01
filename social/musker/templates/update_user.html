@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-md-6 offset-md-3">
+    <h1 class="mb-5">Update User</h1>
+
+    <form method="post" action="{% url 'update_user' %}" class="my-3">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="mt-5">
+            <button type="submit" class="btn btn-secondary">Update Profile</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

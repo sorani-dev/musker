@@ -14,3 +14,4 @@ Youtube playlist (<https://youtube.com/playlist?list=PLCC34OHNcOtoQCR6K4RgBWNi3-
 8. Meep Form! - Django Wednesdays Twitter #8
 9. Logging in and Logging Out - Django Wednesdays Twitter #9
 10. Register Users - Django Wednesdays Twitter #10
+11. Update User Profiles - Django Wednesdays Twitter #11

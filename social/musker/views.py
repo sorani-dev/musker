@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
-
+from django.contrib.auth.models import User
 from .forms import SignUpForm
 from .models import Meep, Profile
 
@@ -62,10 +62,12 @@ def login_user(request: HttpRequest) -> HttpResponse:
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, ('You have been logged in!!\nGet Meeping!'))
+            messages.success(
+                request, ('You have been logged in!!\nGet Meeping!'))
             return redirect('home')
         else:
-            messages.warning(request, ('There was an error logging in. Please Try Again...'))
+            messages.warning(
+                request, ('There was an error logging in. Please Try Again...'))
             return redirect('login')
     else:  # GET
         return render(request, 'login.html', {})
@@ -81,7 +83,8 @@ def logout_user(request: HttpRequest) -> HttpResponse:
         HttpResponse
     """
     logout(request)
-    messages.success(request, ('You have been logged out. Sorry to Meep You Go'))
+    messages.success(
+        request, ('You have been logged out. Sorry to Meep You Go'))
     return redirect('home')
 
 
@@ -106,7 +109,27 @@ def register_user(request: HttpRequest) -> HttpResponse:
             # Log in user
             user = authenticate(username=username, password=password)
             login(request, user=user)
-            messages.success(request, ('You have successfully registered! Welcome!'))
+            messages.success(
+                request, ('You have successfully registered! Welcome!'))
             # Send user home
             return redirect('home')
-        return render(request, 'register.html', {'form': form})
+    return render(request, 'register.html', {'form': form})
+
+
+def update_user(request: HttpRequest) -> HttpResponse:
+    if request.user.is_authenticated:
+        current_user = User.objects.get(pk=request.user.id)
+        # Insert current user info into the signup form
+        form = SignUpForm(request.POST or None, instance=current_user)
+        if form.is_valid():
+            form.save()
+            login(request, user=current_user)
+            messages.success(
+                request, ('Your Profile has been updated!'))
+            return redirect('home')           
+        
+        return render(request, 'update_user.html', {'form': form})
+    else:
+        messages.warning(
+            request, ('You must be logged in to view that page...'))
+        return redirect('home')
