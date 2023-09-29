@@ -21,3 +21,4 @@ Youtube playlist (<https://youtube.com/playlist?list=PLCC34OHNcOtoQCR6K4RgBWNi3-
 15. Profile Pics on Homepage - Django Wednesdays Twitter #15
 16. Like or Unlike Tweets - Django Wednesdays Twitter #16
 17. Likes On Profile Pages - Django Wednesdays Twitter #17
+18. Add Heart Icons - Django Wednesdays Twitter #18

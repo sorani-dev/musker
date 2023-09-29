@@ -33,9 +33,15 @@
                                 ({{ meep.created_at }})
                                 By 
                                 @{{ meep.user.username }} - {{meep.number_of_likes }} likes - {% if user in meep.likes.all %}
-                                    <a href="{% url 'meep_like' meep.id %}">Unlike</a>
-                                    {% else %}
-                                    <a href="{% url 'meep_like' meep.id %}">Like</a>
+
+                                <a href="{% url 'meep_like' meep.id %}">
+                                    <i class="fa fa-solid fa-heart" aria-hidden="true" style="color: red;"></i>
+                                    <span class="visually-hidden">Unlike</span> </a>
+                                {% else %}
+
+                                <a href="{% url 'meep_like' meep.id %}">
+                                    <i class="fa fa-regular fa-heart" aria-hidden="true" style="color: red;"></i>
+                                    <span class="visually-hidden">Like</span></a>
                                     {% endif %}
                             </small>
                         </div>
