@@ -39,7 +39,7 @@
               {{ meep.body }}<br />
               <small class="text-muted">
                 ({{ meep.created_at }}) By @{{ meep.user.username }} -
-                {{meep.number_of_meeps}} likes - {{ user }} 
+                {{meep.number_of_likes}} likes - {{ user }} 
                 {% if user in meep.likes.all %}
                 <a href="{% url 'meep_like' meep.id %}">Unlike</a>
                 {% else %}

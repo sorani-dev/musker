@@ -16,7 +16,7 @@ class Meep(models.Model):
 
     likes = models.ManyToManyField(User, related_name='meep_like', blank=True)
     
-    def number_of_meeps(self):
+    def number_of_likes(self):
         """Keep track or count of likes"""    
         return self.likes.count()
     

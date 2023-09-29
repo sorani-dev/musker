@@ -176,7 +176,7 @@ def meep_like(request: HttpRequest, pk: int) -> HttpResponse:
         else:
             meep.likes.add(request.user)
 
-        return redirect("home")
+        return redirect(request.META.get('HTTP_REFERER'))
     else:
         messages.warning(request, ("You must be logged in to view that page..."))
         return redirect("home")
