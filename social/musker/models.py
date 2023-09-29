@@ -14,6 +14,13 @@ class Meep(models.Model):
     body = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    likes = models.ManyToManyField(User, related_name='meep_like', blank=True)
+    
+    def number_of_meeps(self):
+        """Keep track or count of likes"""    
+        return self.likes.count()
+    
+    
     def __str__(self):
         return (
             f"{self.user} "
@@ -35,7 +42,7 @@ class Profile(models.Model):
         blank=True)
     
     updated_at = models.DateTimeField(User, auto_now=True)
-    
+     
     profile_image = models.ImageField(null=True, blank=True, upload_to='images/')
 
     def __str__(self):

@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .forms import ProfilePicForm, SignUpForm
@@ -11,16 +11,16 @@ from .models import Meep, Profile
 def home(request: HttpRequest) -> HttpResponse:
     meeps = None
     if request.user.is_authenticated:
-        meeps = Meep.objects.all().order_by('-created_at')
-    return render(request, 'musker/home.html', {'meeps': meeps})
+        meeps = Meep.objects.all().order_by("-created_at")
+    return render(request, "musker/home.html", {"meeps": meeps})
 
 
 def profile_list(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated:
         profiles = Profile.objects.exclude(user=request.user)
-        return render(request, 'musker/profile_list.html', {'profiles': profiles})
-    messages.warning(request, ('You must be logged in to view this page'))
-    return redirect('home')
+        return render(request, "musker/profile_list.html", {"profiles": profiles})
+    messages.warning(request, ("You must be logged in to view this page"))
+    return redirect("home")
 
 
 def profile(request: HttpRequest, pk: int) -> HttpResponse:
@@ -31,46 +31,48 @@ def profile(request: HttpRequest, pk: int) -> HttpResponse:
         # Get user profile
         profile = Profile.objects.get(user_id=pk)
         # Get the user"s meeps
-        meeps = Meep.objects.filter(user_id=pk).order_by('-created_at')
+        meeps = Meep.objects.filter(user_id=pk).order_by("-created_at")
         # Perform form logic on follow/unfollow other user
-        if request.method == 'POST':
+        if request.method == "POST":
             # Get the current logged in user's profile
             current_user_profile: Profile = request.user.profile
             # Get form data
-            action = request.POST.get('follow')
+            action = request.POST.get("follow")
             # Decide to follow or unfollow
-            if action == 'unfollow':
+            if action == "unfollow":
                 current_user_profile.follows.remove(profile)
-            elif action == 'follow':
+            elif action == "follow":
                 current_user_profile.follows.add(profile)
             # Save the profile
             current_user_profile.save()
 
         # Render the profile view
-        return render(request, 'musker/profile.html', {'profile': profile, 'meeps': meeps})
-    messages.warning(request, ('You must be logged in to view this page'))
-    return redirect('home')
+        return render(
+            request, "musker/profile.html", {"profile": profile, "meeps": meeps}
+        )
+    messages.warning(request, ("You must be logged in to view this page"))
+    return redirect("home")
 
 
 def login_user(request: HttpRequest) -> HttpResponse:
     """
     Login a user and redirect to home if authetication ok
     """
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(
-                request, ('You have been logged in!!\nGet Meeping!'))
-            return redirect('home')
+            messages.success(request, ("You have been logged in!!\nGet Meeping!"))
+            return redirect("home")
         else:
             messages.warning(
-                request, ('There was an error logging in. Please Try Again...'))
-            return redirect('login')
+                request, ("There was an error logging in. Please Try Again...")
+            )
+            return redirect("login")
     else:  # GET
-        return render(request, 'login.html', {})
+        return render(request, "login.html", {})
 
 
 def logout_user(request: HttpRequest) -> HttpResponse:
@@ -83,9 +85,8 @@ def logout_user(request: HttpRequest) -> HttpResponse:
         HttpResponse
     """
     logout(request)
-    messages.success(
-        request, ('You have been logged out. Sorry to Meep You Go'))
-    return redirect('home')
+    messages.success(request, ("You have been logged out. Sorry to Meep You Go"))
+    return redirect("home")
 
 
 def register_user(request: HttpRequest) -> HttpResponse:
@@ -96,24 +97,23 @@ def register_user(request: HttpRequest) -> HttpResponse:
     """
     form = SignUpForm()
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            email = form.cleaned_data['email']
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password1"]
+            first_name = form.cleaned_data["first_name"]
+            last_name = form.cleaned_data["last_name"]
+            email = form.cleaned_data["email"]
 
             # Log in user
             user = authenticate(username=username, password=password)
             login(request, user=user)
-            messages.success(
-                request, ('You have successfully registered! Welcome!'))
+            messages.success(request, ("You have successfully registered! Welcome!"))
             # Send user home
-            return redirect('home')
-    return render(request, 'register.html', {'form': form})
+            return redirect("home")
+    return render(request, "register.html", {"form": form})
 
 
 def update_user(request: HttpRequest) -> HttpResponse:
@@ -124,21 +124,49 @@ def update_user(request: HttpRequest) -> HttpResponse:
 
         # Get forms
         # Insert current user info into the signup form
-        user_form = SignUpForm(request.POST or None,
-                               request.FILES or None, instance=current_user)
+        user_form = SignUpForm(
+            request.POST or None, request.FILES or None, instance=current_user
+        )
         profile_form = ProfilePicForm(
-            request.POST or None, request.FILES or None, instance=profile_user)
+            request.POST or None, request.FILES or None, instance=profile_user
+        )
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
             login(request, user=current_user)
-            messages.success(
-                request, ('Your Profile has been updated!'))
-            return redirect('home')
+            messages.success(request, ("Your Profile has been updated!"))
+            return redirect("home")
 
-        return render(request, 'update_user.html', {'user_form': user_form, 'profile_form': profile_form})
+        return render(
+            request,
+            "update_user.html",
+            {"user_form": user_form, "profile_form": profile_form},
+        )
     else:
-        messages.warning(
-            request, ('You must be logged in to view that page...'))
-        return redirect('home')
+        messages.warning(request, ("You must be logged in to view that page..."))
+        return redirect("home")
+
+
+def meep_like(request: HttpRequest, pk: int) -> HttpResponse:
+    """meep_like Which meep a User likes
+
+    Arguments:
+        request: HTTPRequest -- The request object
+        pk: int -- The primary key
+
+    Returns:
+        the response
+    """
+
+    if request.user.is_authenticated:
+        meep = get_object_or_404(Meep, id=pk)
+        if meep.likes.filter(id=request.user.id):
+            meep.likes.remove(request.user)
+        else:
+            meep.likes.add(request.user)
+
+        return redirect("home")
+    else:
+        messages.warning(request, ("You must be logged in to view that page..."))
+        return redirect("home")
