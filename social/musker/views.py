@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .forms import ProfilePicForm, SignUpForm
+from .forms import MeepForm, ProfilePicForm, SignUpForm
 from .models import Meep, Profile
 
 
@@ -11,8 +11,18 @@ from .models import Meep, Profile
 def home(request: HttpRequest) -> HttpResponse:
     meeps = None
     if request.user.is_authenticated:
+        form = MeepForm(request.POST or None)
+        if request.method == "POST" and form.is_valid():
+                meep = form.save(commit=False)
+                meep.user = request.user
+                meep.save()
+                messages.success(request, ("Your Meep Has Been Posted!"))
+                return redirect('home')
         meeps = Meep.objects.all().order_by("-created_at")
-    return render(request, "musker/home.html", {"meeps": meeps})
+        return render(request, 'musker/home.html', {"meeps":meeps, "form":form})
+    else:
+        meeps = Meep.objects.all().order_by("-created_at")
+        return render(request, "musker/home.html", {"meeps": meeps})
 
 
 def profile_list(request: HttpRequest) -> HttpResponse:

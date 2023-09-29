@@ -39,7 +39,7 @@
               {{ meep.body }}<br />
               <small class="text-muted">
                 ({{ meep.created_at }}) By @{{ meep.user.username }} -
-                {{meep.number_of_meeps}} likes - {{ user }}
+                {{meep.number_of_meeps}} likes - {{ user }} 
                 {% if user in meep.likes.all %}
                 <a href="{% url 'meep_like' meep.id %}">Unlike</a>
                 {% else %}
@@ -53,12 +53,14 @@
       {% endfor %}
     </div>
 
+    {% if form %}
     <div class="col-md-4">
       <form method="post">
-        {% csrf_token %}
+        {% csrf_token %} {{ form.as_p }}
         <button type="submit" class="btn btn-secondary">Meep!</button>
       </form>
     </div>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
