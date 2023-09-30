@@ -13,13 +13,13 @@ def home(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated:
         form = MeepForm(request.POST or None)
         if request.method == "POST" and form.is_valid():
-                meep = form.save(commit=False)
-                meep.user = request.user
-                meep.save()
-                messages.success(request, ("Your Meep Has Been Posted!"))
-                return redirect('home')
+            meep = form.save(commit=False)
+            meep.user = request.user
+            meep.save()
+            messages.success(request, ("Your Meep Has Been Posted!"))
+            return redirect("home")
         meeps = Meep.objects.all().order_by("-created_at")
-        return render(request, 'musker/home.html', {"meeps":meeps, "form":form})
+        return render(request, "musker/home.html", {"meeps": meeps, "form": form})
     else:
         meeps = Meep.objects.all().order_by("-created_at")
         return render(request, "musker/home.html", {"meeps": meeps})
@@ -31,6 +31,7 @@ def profile_list(request: HttpRequest) -> HttpResponse:
         return render(request, "musker/profile_list.html", {"profiles": profiles})
     messages.warning(request, ("You must be logged in to view this page"))
     return redirect("home")
+
 
 def unfollow(request: HttpRequest, pk: int) -> HttpResponse:
     """unfollow Unfollow a user
@@ -44,19 +45,53 @@ def unfollow(request: HttpRequest, pk: int) -> HttpResponse:
     """
     if request.user.is_authenticated:
         # Get the profile to unfollow
-        profile = Profile.objects.get(pk=pk)
+        profile: Profile = Profile.objects.get(user_id=pk)
         # Unfollow the user
         request.user.profile.follows.remove(profile)
         # Save the removed profile
         request.user.profile.save()
-        
+
         # Return message
-        messages.success(request=request, message=f'You have successfully unfollowed {profile.user.username} ({profile.user.first_name} {profile.user.last_name})')
-        return redirect(request.META.get('HTTP_REFERER'))
-        
+        messages.success(
+            request=request,
+            message=f"You have successfully unfollowed {profile.user.username} ({profile.user.first_name} {profile.user.last_name})",
+        )
+        return redirect(request.META.get("HTTP_REFERER"))
+
     else:
         messages.warning(request, ("You must be logged in to view this page"))
         return redirect("home")
+
+
+def follow(request: HttpRequest, pk: int) -> HttpResponse:
+    """unfollow Follow a user
+
+    Arguments:
+        request -- Current Request
+        pk -- User primary key
+
+    Returns:
+        Response
+    """
+    if request.user.is_authenticated:
+        # Get the profile to unfollow
+        profile = Profile.objects.get(pk=pk)
+        # Follow the user
+        request.user.profile.follows.add(profile)
+        # Save the removed profile
+        request.user.profile.save()
+
+        # Return message
+        messages.success(
+            request=request,
+            message=f"You have successfully followed {profile.user.username} ({profile.user.first_name} {profile.user.last_name})",
+        )
+        return redirect(request.META.get("HTTP_REFERER"))
+
+    else:
+        messages.warning(request, ("You must be logged in to view this page"))
+        return redirect("home")
+
 
 def profile(request: HttpRequest, pk: int) -> HttpResponse:
     """
@@ -201,12 +236,13 @@ def meep_like(request: HttpRequest, pk: int) -> HttpResponse:
         else:
             meep.likes.add(request.user)
 
-        return redirect(request.META.get('HTTP_REFERER'))
+        return redirect(request.META.get("HTTP_REFERER"))
     else:
         messages.warning(request, ("You must be logged in to view that page..."))
         return redirect("home")
 
-def meep_share(request: HttpRequest, pk:int)->HttpResponse:
+
+def meep_share(request: HttpRequest, pk: int) -> HttpResponse:
     """meep_share Share a Meep
 
     Arguments:
@@ -217,9 +253,11 @@ def meep_share(request: HttpRequest, pk:int)->HttpResponse:
         A response with a template
     """
     meep = get_object_or_404(Meep, pk=pk)
-    
+
     if meep:
-        return render(request, template_name='musker/show_me.html', context={'meep': meep})
+        return render(
+            request, template_name="musker/show_me.html", context={"meep": meep}
+        )
     else:
-        messages.error(request=request, message='That Meep does not exist.')
-        return redirect('home')
+        messages.error(request=request, message="That Meep does not exist.")
+        return redirect("home")

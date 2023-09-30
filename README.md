@@ -1,6 +1,6 @@
 # Django Wednesdays Twitter
 
-Youtube playlist (<https://youtube.com/playlist?list=PLCC34OHNcOtoQCR6K4RgBWNi3-7yGgg7b>) *by Codemy.com*
+Youtube playlist (<https://youtube.com/playlist?list=PLCC34OHNcOtoQCR6K4RgBWNi3-7yGgg7b>) _by Codemy.com_
 
 ## Syllabus
 
@@ -25,4 +25,4 @@ Youtube playlist (<https://youtube.com/playlist?list=PLCC34OHNcOtoQCR6K4RgBWNi3-
 19. Share Meeps - Django Wednesdays Twitter #19
 20. User Profile Bio and Social Media Links - Django Wednesdays Twitter #20
 21. Add Profile Pic To Navbar - Django Wednesdays Twitter #21
-22. Unfollow From Profile Page - Django Wednesdays Twitter #22
+22. Unfollow From Profile Page - Django Wednesdays Twitter #223
