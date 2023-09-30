@@ -180,3 +180,21 @@ def meep_like(request: HttpRequest, pk: int) -> HttpResponse:
     else:
         messages.warning(request, ("You must be logged in to view that page..."))
         return redirect("home")
+
+def meep_share(request: HttpRequest, pk:int)->HttpResponse:
+    """meep_share Share a Meep
+
+    Arguments:
+        request -- The request
+        pk -- The prmary key of the meep to share
+
+    Returns:
+        A response with a template
+    """
+    meep = get_object_or_404(Meep, pk=pk)
+    
+    if meep:
+        return render(request, template_name='musker/show_me.html', context={'meep': meep})
+    else:
+        messages.error(request=request, message='That Meep does not exist.')
+        return redirect('home')
