@@ -1,8 +1,17 @@
+{% load static %}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'home' %}">Musker</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -15,12 +24,9 @@
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'profile' pk=request.user.pk %}">My Profile</a>
-        </li> 
-        <li class="nav-item">
           <a class="nav-link" href="{% url 'logout' %}">Logout</a>
         </li>
-        {% else %}  
+        {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'register' %}">Register</a>
         </li>
@@ -29,10 +35,44 @@
         </li>
         {% endif %}
       </ul>
+      {% comment %}
       <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
+      {% endcomment %} {% if user.is_authenticated %}
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-link navbar-brand">
+          <a href="{% url 'profile' request.user.id %}">
+            {% if user.profile.profile_image %}
+            <img
+              class="rounded-circle"
+              src="{{ user.profile.profile_image.url }}"
+              alt="{{ user.first_name }}'s profile"
+              title="{{ user.first_name }}'s profile"
+              width="30"
+              height="30"
+            />
+            {% else %}
+            <img
+              src="{% static 'images/default_profile_pic.png' %}"
+              alt="{{ profile.user.username }}"
+              title="{{ user.first_name }}'s profile"
+              class="rounded-circle"
+              width="30"
+              height="30"
+            />
+
+            {% endif %}
+          </a>
+        </li>
+      </ul>
+      {% endif %}
     </div>
   </div>
 </nav>
