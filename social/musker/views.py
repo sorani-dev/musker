@@ -123,6 +123,29 @@ def profile(request: HttpRequest, pk: int) -> HttpResponse:
     messages.warning(request, ("You must be logged in to view this page"))
     return redirect("home")
 
+def followers(request:HttpRequest, pk: int)->HttpResponse:
+    """followers List all followers of the current user
+
+    Arguments:
+        request -- Current request
+        pk -- Current user primary key
+
+    Returns:
+        Response
+    """
+    if request.user.is_authenticated:
+        # This is the current users' page
+        if request.user.id == pk:
+                
+            profiles = Profile.objects.get(user_id=pk)
+            return render(request, "musker/followers.html", {"profiles": profiles })
+        else:
+            messages.warning(request, ("You must be logged in to view this page"))
+            return redirect('home')
+    messages.warning(request, ("You must be logged in to view this page"))
+    return redirect("home")
+
+
 
 def login_user(request: HttpRequest) -> HttpResponse:
     """

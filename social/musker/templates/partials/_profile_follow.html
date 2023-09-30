@@ -3,9 +3,10 @@
     <div class="card-body">
         <div class="card-text">
                 {% for followed in card %}
+                
                     {% if followed.user != profile.user %}                
                         <a href="{% url 'profile' followed.user.id %}">@{{ followed }}</a> 
-                        {% if unfollow %}
+                        {% if unfollow and profile.user == request.user %}
                             
                             &nbsp; <a href="{% url 'unfollow' followed.user.id  %}"><i class="fa-solid fa-circle-minus fa-sm" style="color: red;" aria-hidden="True" title="Unfollow {{ followed }}"></i><span class="fa-sr-only">Unfollow  {{ followed }}</span></a>
                         {% endif %}

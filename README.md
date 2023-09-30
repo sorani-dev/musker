@@ -25,4 +25,6 @@ Youtube playlist (<https://youtube.com/playlist?list=PLCC34OHNcOtoQCR6K4RgBWNi3-
 19. Share Meeps - Django Wednesdays Twitter #19
 20. User Profile Bio and Social Media Links - Django Wednesdays Twitter #20
 21. Add Profile Pic To Navbar - Django Wednesdays Twitter #21
-22. Unfollow From Profile Page - Django Wednesdays Twitter #223
+22. Unfollow From Profile Page - Django Wednesdays Twitter #22
+23. Follow Back From Profile - Django Wednesdays Twitter #23
+24. Create A Followers List Page - Django Wednesdays Twitter #24
