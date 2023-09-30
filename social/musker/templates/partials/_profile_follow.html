@@ -4,7 +4,11 @@
         <div class="card-text">
                 {% for followed in card %}
                     {% if followed.user != profile.user %}                
-                        <a href="{% url 'profile' followed.user.id %}">@{{ followed }}</a>
+                        <a href="{% url 'profile' followed.user.id %}">@{{ followed }}</a> 
+                        {% if unfollow %}
+                            
+                        &nbsp; <a href="{% url 'unfollow' followed.user.id  %}"><i class="fa-solid fa-rotate-left fa-sm" style="color: grey;" aria-hidden="True" title="Unfollow {{ followed }}"></i><span class="fa-sr-only">Unfollow  {{ followed }}</span></a>
+                        {% endif %}
                         {% if not loop.last %}
                             <br>
                         {% endif %}

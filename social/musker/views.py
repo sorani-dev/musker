@@ -32,6 +32,31 @@ def profile_list(request: HttpRequest) -> HttpResponse:
     messages.warning(request, ("You must be logged in to view this page"))
     return redirect("home")
 
+def unfollow(request: HttpRequest, pk: int) -> HttpResponse:
+    """unfollow Unfollow a user
+
+    Arguments:
+        request -- Current Request
+        pk -- User primary key
+
+    Returns:
+        Response
+    """
+    if request.user.is_authenticated:
+        # Get the profile to unfollow
+        profile = Profile.objects.get(pk=pk)
+        # Unfollow the user
+        request.user.profile.follows.remove(profile)
+        # Save the removed profile
+        request.user.profile.save()
+        
+        # Return message
+        messages.success(request=request, message=f'You have successfully unfollowed {profile.user.username} ({profile.user.first_name} {profile.user.last_name})')
+        return redirect(request.META.get('HTTP_REFERER'))
+        
+    else:
+        messages.warning(request, ("You must be logged in to view this page"))
+        return redirect("home")
 
 def profile(request: HttpRequest, pk: int) -> HttpResponse:
     """
