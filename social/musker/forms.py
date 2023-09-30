@@ -91,6 +91,13 @@ class ProfilePicForm(forms.ModelForm):
 
     profile_image = forms.ImageField(label="Profile Picture")
 
+    profile_bio = forms.CharField( required=False, label="Profile Bio", widget=forms.widgets.Textarea( attrs={"class": "form-control", "placeholder": "Profile Bio"}))
+    homepage_link = forms.CharField( required=False, label="Website", widget=forms.widgets.URLInput({"class": "form-control", "placeholder": "Website Link"}))
+    facebook_link = forms.CharField( required=False, label="Facebook", widget=forms.widgets.URLInput({"class": "form-control", "placeholder": "Facebook Link"}))
+    instagram_link = forms.CharField( required=False, label="Instagram", widget=forms.widgets.URLInput({"class": "form-control", "placeholder": "Instagram Link"}))
+    linkedin_link = forms.CharField( required=False, label="Linkedin", widget=forms.widgets.URLInput({"class": "form-control", "placeholder": "Linkedin Link"}))
+    x_link = forms.CharField( required=False, label="X", widget=forms.widgets.URLInput({"class": "form-control", "placeholder": "X Link"}))
+
     class Meta:
         model = Profile
-        fields = ("profile_image",)
+        fields = ("profile_image","profile_bio", "homepage_link", "facebook_link", "instagram_link", "linkedin_link", "x_link",)

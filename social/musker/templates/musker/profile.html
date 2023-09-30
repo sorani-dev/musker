@@ -26,6 +26,7 @@
                   class="rounded-circle" width="50" height="50" />
               </div>
               {% endif %}
+
             </div>
             <div class="col-11">
               <span class="mb-3">{{ meep.body }}</span><br>
@@ -58,6 +59,44 @@
           height="200" />
       </div>
       {% endif %}
+
+
+    {# Profile links #}
+
+    {% if profile.homepage_link  %}
+      <a href="{{ profile.homepage_link }}" target="_blank" rel="external nofollow noreferrer" referrerpolicy="no-referrer" style="color: gray;"><i class="fa-solid fa-link" aria-hidden="true"></i><span class="fa-sr-only">Website</span></a>
+      &nbsp;&nbsp;
+    
+      {% endif %}   
+    
+    {% if profile.facebook_link  %}
+      <a href="{{ profile.facebook_link }}" target="_blank" rel="external nofollow noreferrer" referrerpolicy="no-referrer" style="color: gray;"><i class="fa-brands fa-facebook-f" aria-hidden="true" title="Facebook"></i><span class="fa-sr-only">Facebook</span></a>
+      &nbsp;&nbsp;
+    
+      {% endif %}   
+    
+    {% if profile.instagram_link  %}
+      <a href="{{ profile.instagram_link }}" target="_blank" rel="external nofollow noreferrer" referrerpolicy="no-referrer" style="color: gray;"><i class="fa-brands fa-instagram" aria-hidden="True"></i><span class="fa-sr-only"></span></a>
+      &nbsp;&nbsp;
+    
+    {% endif %}   
+    
+    {% if profile.linkedin_link  %}
+      <a href="{{ profile.linkedin_link }}" target="_blank" rel="external nofollow noreferrer" referrerpolicy="no-referrer" style="color: gray;"><i class="fa-brands fa-linkedin-in" aria-hidden="True"></i><span class="fa-sr-only">Linkedin</span></a>
+      &nbsp;&nbsp;
+  
+    {% endif %}   
+    
+    {% if profile.x_link  %}
+      <a href="{{ profile.x_link }}" target="_blank" rel="external nofollow noreferrer" referrerpolicy="no-referrer" style="color: gray;"><i class="fa-brands fa-x-twitter" aria-hidden="True"><span class="viually-hidden">X</span></i></a>
+    {% endif %}
+    
+    <br/><br/>
+    
+    {% if profile.profile_bio  %}
+      <p  style="text-align: justify;">{{ profile.profile_bio }}</p>
+    {% endif %}
+      <br><br>
 
       <div class="card">
         {% include 'partials/_profile_follow.html' with card=profile.follows.all title="Follows" %}

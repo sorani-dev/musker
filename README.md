@@ -23,3 +23,4 @@ Youtube playlist (<https://youtube.com/playlist?list=PLCC34OHNcOtoQCR6K4RgBWNi3-
 17. Likes On Profile Pages - Django Wednesdays Twitter #17
 18. Add Heart Icons - Django Wednesdays Twitter #18
 19. Share Meeps - Django Wednesdays Twitter #19
+20. User Profile Bio and Social Media Links - Django Wednesdays Twitter #20
