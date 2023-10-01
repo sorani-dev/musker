@@ -300,7 +300,7 @@ def meep_share(request: HttpRequest, pk: int) -> HttpResponse:
 
     if meep:
         return render(
-            request, template_name="musker/show_me.html", context={"meep": meep}
+            request, template_name="musker/show_meep.html", context={"meep": meep}
         )
     else:
         messages.error(request=request, message="That Meep does not exist.")
@@ -326,8 +326,8 @@ def meep_delete(request: HttpRequest, pk: int) -> HttpResponse:
             meep.delete()
             messages.success(request, ("The meep has been deleted."))
             return redirect(request.META.get("HTTP_REFERER"))
-        
+
         messages.warning(request, ("You don't own thid meep"))
-        return redirect(request.META.get("HTTP_REFERER") or 'home')
+        return redirect(request.META.get("HTTP_REFERER") or "home")
     messages.warning(request, ("Please log in to continue"))
-    return redirect(request.META.get("HTTP_REFERER") or 'home')
+    return redirect(request.META.get("HTTP_REFERER") or "home")
