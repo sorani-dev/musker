@@ -1,0 +1,5 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+{% include 'partials/_follow_list.html' with profiles=profiles.follows.all title='is following...' %}
+{% endblock content %}

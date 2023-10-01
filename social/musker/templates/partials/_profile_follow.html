@@ -18,3 +18,10 @@
                 {% endfor %}
         </div>
     </div>
+    <br>
+    
+    {% url profile_follow_type profile.user.id as url_follow %}
+        
+    <div class="card-footer text-end">
+     <a href="{{ url_follow }}" class="btn btn-sm btn-outline-secondary" role="button">See all</a>
+   </div>

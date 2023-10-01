@@ -99,13 +99,10 @@
       <br><br>
 
       <div class="card">
-        {% include 'partials/_profile_follow.html' with card=profile.follows.all title="Follows" unfollow=True %}
-      </div>
-      <div class="card my-3 pb-3">
-        {% include 'partials/_profile_follow.html' with card=profile.followed_by.all|slice:3 title="Followed By"  unfollow=False %}
-       <br>
-       <a href="{% url 'profile_followers' profile.user.id %}">See all</a>
+        {% include 'partials/_profile_follow.html' with card=profile.follows.all title="Follows" unfollow=True profile_follow_type="profile_follows" %}
 
+      <div class="card my-3 pb-3">
+        {% include 'partials/_profile_follow.html' with card=profile.followed_by.all|slice:3 title="Followed By"  unfollow=False profile_follow_type="profile_followers" %}
       </div>
       {% if profile.user != request.user %}
       <form action="" method="post" class="mb-3">
