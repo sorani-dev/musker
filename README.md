@@ -33,3 +33,4 @@ Youtube playlist (<https://youtube.com/playlist?list=PLCC34OHNcOtoQCR6K4RgBWNi3-
 27. Edit Meeps - Django Wednesdays Twitter #27
 28. Search Meeps - Django Wednesdays Twitter #28
 29. Search Users - Django Wednesdays Twitter #29
+30. Search Users Error Fix - Django Wednesdays Twitter #30
