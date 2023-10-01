@@ -390,15 +390,10 @@ def search(request: HttpRequest) -> HttpResponse:
 
         # Search the database in the body of the Meep objects
         searched = Meep.objects.filter(body__contains=search_field)
-        
 
         # Fill in the context with the values to inject in the view
-        context = {
-            "search": search_field,
-            "searched": searched
-        }
+        context = {"search": search_field, "searched": searched}
     return render(request=request, template_name="musker/search.html", context=context)
-
 
 
 def search_user(request: HttpRequest) -> HttpResponse:
@@ -416,12 +411,15 @@ def search_user(request: HttpRequest) -> HttpResponse:
         search_field = request.POST.get("search")
 
         # Search the database in the body of the Meep objects
-        searched = User.objects.filter(username__icontains=search_field)
-        
+        searched = User.objects.filter(
+            Q(username__icontains=search_field)
+            | Q(first_name__icontains=search_field)
+            | Q(last_name__icontains=search_field)
+        )
+        print(searched)
 
         # Fill in the context with the values to inject in the view
-        context = {
-            "search": search_field,
-            "searched": searched
-        }
-    return render(request=request, template_name="musker/search_user.html", context=context)
+        context = {"search": search_field, "searched": searched}
+    return render(
+        request=request, template_name="musker/search_user.html", context=context
+    )
