@@ -370,3 +370,29 @@ def meep_edit(request: HttpRequest, pk: int) -> HttpResponse:
         return redirect(request.META.get("HTTP_REFERER") or "home")
     messages.warning(request, ("Please log in to continue"))
     return redirect(request.META.get("HTTP_REFERER") or "home")
+
+
+def search(request: HttpRequest) -> HttpResponse:
+    """search Search through the body of all meeps
+
+    Arguments:
+        request -- Request
+
+    Returns:
+        response
+    """
+    context = {}
+    if request.method == "POST":
+        # Grab the search field value of the search POSTed form
+        search_field = request.POST.get("search")
+
+        # Search the database in the body of the Meep objects
+        searched = Meep.objects.filter(body__contains=search_field)
+        
+
+        # Fill in the context with the values to inject in the view
+        context = {
+            "search": search_field,
+            "searched": searched
+        }
+    return render(request=request, template_name="musker/search.html", context=context)
