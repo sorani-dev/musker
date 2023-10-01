@@ -123,7 +123,8 @@ def profile(request: HttpRequest, pk: int) -> HttpResponse:
     messages.warning(request, ("You must be logged in to view this page"))
     return redirect("home")
 
-def followers(request:HttpRequest, pk: int)->HttpResponse:
+
+def followers(request: HttpRequest, pk: int) -> HttpResponse:
     """followers List all followers of the current user
 
     Arguments:
@@ -136,18 +137,16 @@ def followers(request:HttpRequest, pk: int)->HttpResponse:
     if request.user.is_authenticated:
         # This is the current users' page
         if request.user.id == pk:
-                
             profiles = Profile.objects.get(user_id=pk)
-            return render(request, "musker/followers.html", {"profiles": profiles })
+            return render(request, "musker/followers.html", {"profiles": profiles})
         else:
             messages.warning(request, ("That's not your profile page..."))
-            return redirect('home')
+            return redirect("home")
     messages.warning(request, ("You must be logged in to view this page"))
     return redirect("home")
 
 
-
-def follows(request:HttpRequest, pk: int)->HttpResponse:
+def follows(request: HttpRequest, pk: int) -> HttpResponse:
     """follows List all users that the current user follows
 
     Arguments:
@@ -160,16 +159,13 @@ def follows(request:HttpRequest, pk: int)->HttpResponse:
     if request.user.is_authenticated:
         # This is the current users' page
         if request.user.id == pk:
-                
             profiles = Profile.objects.get(user_id=pk)
-            return render(request, "musker/follows.html", {"profiles": profiles })
+            return render(request, "musker/follows.html", {"profiles": profiles})
         else:
             messages.warning(request, ("That's not your profile page..."))
-            return redirect('home')
+            return redirect("home")
     messages.warning(request, ("You must be logged in to view this page"))
     return redirect("home")
-
-
 
 
 def login_user(request: HttpRequest) -> HttpResponse:
@@ -309,3 +305,29 @@ def meep_share(request: HttpRequest, pk: int) -> HttpResponse:
     else:
         messages.error(request=request, message="That Meep does not exist.")
         return redirect("home")
+
+
+def meep_delete(request: HttpRequest, pk: int) -> HttpResponse:
+    """meep_delete Delete a specific Meep
+
+    Arguments:
+        request -- The request
+        pk -- The primary key of the Meep to delete
+
+    Returns:
+        The Response using a template
+    """
+    if request.user.is_authenticated:
+        meep = get_object_or_404(Meep, id=pk)
+
+        # Check that the current user owns the meep
+        if request.user.id == meep.user.id:
+            # Delete the meep
+            meep.delete()
+            messages.success(request, ("The meep has been deleted."))
+            return redirect(request.META.get("HTTP_REFERER"))
+        
+        messages.warning(request, ("You don't own thid meep"))
+        return redirect(request.META.get("HTTP_REFERER") or 'home')
+    messages.warning(request, ("Please log in to continue"))
+    return redirect(request.META.get("HTTP_REFERER") or 'home')

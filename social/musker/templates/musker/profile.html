@@ -34,15 +34,22 @@
                 ({{ meep.created_at }})
                 By
                 @{{ meep.user.username }}
-                - {{
-                                  meep.number_of_likes }} Likes - {% if user in meep.likes.all %}
+                - {{ meep.number_of_likes }} Likes - {% if user in meep.likes.all %}
                 <a href="{% url 'meep_like' meep.id %}"><i class="fa-solid fa-heart" style="color: red"></i></a>
                 {% else %}
-                <a href="{% url 'meep_like' meep.id %}"><i class="fa fa-heart-o" style="color: red"></i></a>
+                <a href="{% url 'meep_like' meep.id %}"><i class="fa fa-regular fa-heart" style="color: red"></i></a>
                 {% endif %} &nbsp;&nbsp;
                 <a href="{% url 'meep_share' meep.id %}">
                   <i class="fa-solid fa-share" style="color: gray"></i>
                 </a>
+                
+                {% if request.user.id == profile.user.id  %}
+                &nbsp;&nbsp;
+                  <a href="{% url 'meep_delete' meep.id %}" onclick="return confirm('Do you really want to delete this meep?')">
+                  <i class="fa-solid fa-trash" style="color: grey"></i>
+                </a>
+                {% endif %}
+                  
               </small>
             </div>
           </div>
