@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from .forms import MeepForm, ProfilePicForm, SignUpForm
 from .models import Meep, Profile
 
+from django.db.models import Q
+
 
 # Create your views here.
 def home(request: HttpRequest) -> HttpResponse:
@@ -396,3 +398,30 @@ def search(request: HttpRequest) -> HttpResponse:
             "searched": searched
         }
     return render(request=request, template_name="musker/search.html", context=context)
+
+
+
+def search_user(request: HttpRequest) -> HttpResponse:
+    """search Search a user from all users
+
+    Arguments:
+        request -- Request
+
+    Returns:
+        response
+    """
+    context = {}
+    if request.method == "POST":
+        # Grab the search field value of the search POSTed form
+        search_field = request.POST.get("search")
+
+        # Search the database in the body of the Meep objects
+        searched = User.objects.filter(username__icontains=search_field)
+        
+
+        # Fill in the context with the values to inject in the view
+        context = {
+            "search": search_field,
+            "searched": searched
+        }
+    return render(request=request, template_name="musker/search_user.html", context=context)

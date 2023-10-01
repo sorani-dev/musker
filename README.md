@@ -32,3 +32,4 @@ Youtube playlist (<https://youtube.com/playlist?list=PLCC34OHNcOtoQCR6K4RgBWNi3-
 26. Delete Meeps - Django Wednesdays Twitter #26
 27. Edit Meeps - Django Wednesdays Twitter #27
 28. Search Meeps - Django Wednesdays Twitter #28
+29. Search Users - Django Wednesdays Twitter #29
