@@ -30,3 +30,4 @@ Youtube playlist (<https://youtube.com/playlist?list=PLCC34OHNcOtoQCR6K4RgBWNi3-
 24. Create A Followers List Page - Django Wednesdays Twitter #24
 25. Build A Follows List Page - Django Wednesdays Twitter #25
 26. Delete Meeps - Django Wednesdays Twitter #26
+27. Edit Meeps - Django Wednesdays Twitter #27

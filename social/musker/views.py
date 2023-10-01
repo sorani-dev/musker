@@ -331,3 +331,42 @@ def meep_delete(request: HttpRequest, pk: int) -> HttpResponse:
         return redirect(request.META.get("HTTP_REFERER") or "home")
     messages.warning(request, ("Please log in to continue"))
     return redirect(request.META.get("HTTP_REFERER") or "home")
+
+
+def meep_edit(request: HttpRequest, pk: int) -> HttpResponse:
+    """meep_edit Edit a specific Meep
+
+    Arguments:
+        request -- The request
+        pk -- The primary key of the Meep to edit/change
+
+    Returns:
+        The Response using a template
+    """
+    if request.user.is_authenticated:
+        # Get the Meep to edit
+        meep = get_object_or_404(Meep, id=pk)
+
+        # Check that the current user owns the meep
+        if request.user.id == meep.user.id:
+            form = MeepForm(request.POST or None, instance=meep)
+            if request.method == "POST" and form.is_valid():
+                meep = form.save(commit=False)
+                meep.user = request.user
+                meep.save()
+
+                messages.success(request, ("The meep has been updated."))
+                return redirect("home")
+
+            else:
+                context = {"form": form, "meep": meep}
+                return render(
+                    request,
+                    "musker/edit_meep.html",
+                    context=context,
+                )
+
+        messages.warning(request, ("You don't own thid meep"))
+        return redirect(request.META.get("HTTP_REFERER") or "home")
+    messages.warning(request, ("Please log in to continue"))
+    return redirect(request.META.get("HTTP_REFERER") or "home")
