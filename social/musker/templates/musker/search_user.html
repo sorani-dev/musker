@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<div class="container">
+
+  <h1 class="mb-3">Search Users</h1>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="search_field" class="form-label">Search for</label>
+      <input type="input" class="form-control" id="search" placeholder="Search meeps" name="search"
+        value="{{ search }}">
+    </div>
+    <div class="mb-3">
+      <button type="submit" class="btn btn-secondary">Search User!</button>
+    </div>
+  </form>
+
+  {% if searched %}
+  <div class="mt-5">
+    <h2 class="h3">You searched for: {{ search  }} </h2>
+    {% for result in searched %}
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+
+          <div class="mb-3 d-flex align-items-center justify-content-center">
+            {% if result.profile.profile_image %}
+            <img src="{{ result.profile.profile_image.url }}" alt="{{ result.profile.user.username }}"
+              class="img-fluid rounded-start" width="200" height="200" />
+            {% else %}
+            {% comment %} <img src="https://placeholder.com/200/200" class="card-img"
+              alt="{{ result.profile.user.username }}"> {% endcomment %}
+            <img src="{% static 'images/default_profile_pic.png' %}" class="img-fluid rounded-start"
+              alt="{{ result.profile.user.username }}'s Profile" width="200" height="200">
+            {% endif %}
+          </div>
+
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ result.profile.user.username }}</h5>
+            <p class="card-text"><a
+                href="{% url 'profile' result.profile.user.id %}">@{{ result.profile.user.username|lower }}</a>
+            </p>
+            <p class="card-text"><small class="text-muted">Last Updated: {{ result.profile.updated_at }}</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+  {% elif search != None %}
+  <p>Sorry, no username containing {{ search }} was found, please try again.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

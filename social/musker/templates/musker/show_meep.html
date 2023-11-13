@@ -4,7 +4,6 @@
   <div class="row my-3">
     <div class="col-md-8">
       <h1 class="mb-3">Meeps!</h1>
-      {% for meep in meeps %}
       <div class="alert alert-dark" role="alert">
         <div class="container">
           <div class="row">
@@ -26,7 +25,6 @@
               <small class="text-muted">
                 ({{ meep.created_at }}) By @{{ meep.user.username }} -
                 {{meep.number_of_likes}} likes - {{ user }}
-                &nbsp;&nbsp;
                 {% if user in meep.likes.all %}
                 <a href="{% url 'meep_like' meep.id %}">
                   <i class="fa fa-solid fa-heart" aria-hidden="true" style="color: red;"></i>
@@ -37,21 +35,18 @@
                   <i class="fa fa-regular fa-heart" aria-hidden="true" style="color: red;"></i>
                   <span class="visually-hidden">Like</span></a>
                 {% endif %}
-                &nbsp;&nbsp;
-                <a href="{% url 'meep_share' meep.id %}"><i class="fas fa-share" style="color: #455a64;"></i><span class="visually-hidden">Share</span></a>
               </small>
             </div>
           </div>
         </div>
       </div>
-      {% endfor %}
     </div>
 
     {% if form %}
     <div class="col-md-4">
       <form method="post">
         {% csrf_token %} {{ form.as_p }}
-        <button type="submit" class="btn btn-secondary">Post Meep!</button>
+        <button type="submit" class="btn btn-secondary">Meep!</button>
       </form>
     </div>
     {% endif %}

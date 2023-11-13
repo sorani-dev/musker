@@ -3,8 +3,14 @@
     <div class="card-body">
         <div class="card-text">
                 {% for followed in card %}
+                
                     {% if followed.user != profile.user %}                
-                        <a href="{% url 'profile' followed.user.id %}">@{{ followed }}</a>
+                        <a href="{% url 'profile' followed.user.id %}">@{{ followed }}</a> 
+                        {% if unfollow and profile.user == request.user %}
+                            
+                            &nbsp; <a href="{% url 'unfollow' followed.user.id  %}"><i class="fa-solid fa-circle-minus fa-sm" style="color: red;" aria-hidden="True" title="Unfollow {{ followed }}"></i><span class="fa-sr-only">Unfollow  {{ followed }}</span></a>
+                        {% endif %}
+                           
                         {% if not loop.last %}
                             <br>
                         {% endif %}
@@ -12,3 +18,10 @@
                 {% endfor %}
         </div>
     </div>
+    <br>
+    
+    {% url profile_follow_type profile.user.id as url_follow %}
+        
+    <div class="card-footer text-end">
+     <a href="{{ url_follow }}" class="btn btn-sm btn-outline-secondary" role="button">See all</a>
+   </div>
