@@ -1,6 +1,6 @@
 asgiref==3.7.2
 autopep8==2.0.4
-Django==4.2.8
+Django==4.2.10
 django-dotenv==1.4.2
 django-environ==0.11.2
 Pillow==10.1.0
